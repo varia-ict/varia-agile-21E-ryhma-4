@@ -8,19 +8,18 @@ public class PlayerController : MonoBehaviour
     public GameObject enemy;
     public GameObject ground;
     private Rigidbody playerRb;
-    public float speed = 5;
+    public float speed = 10;
     public bool isOnGround;
-    public float jumpForce = 5;
+    public float jumpForce = 10;
     public bool gameOver;
     private float mapBottom = -5;
     private float attackCoolDown = 0.2f;
-    public float playerHp = 100;
-    private float attackRange = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        weapon = GameObject.Find("Weapon");
         weapon.SetActive(false);
 
     }
@@ -28,38 +27,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerHp <= 0)
+        //movement
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
         {
-            gameOver = true;
+            Jump();
         }
-        if (!gameOver)
-        {
-            //movement
-            float horizontalInput = Input.GetAxis("Horizontal");
-            transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
-
-            if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
-            {
-                Jump();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Q)) // attack with q
-            {
-                Attack();
-            }
-
-            if (Input.GetKey(KeyCode.A)) //turn weapon left
-            {
-                weapon.gameObject.transform.position = new Vector3(transform.position.x -attackRange, transform.position.y, transform.position.z);
-            }
-
-
-            if (Input.GetKey(KeyCode.D)) //turn weapon right
-            {
-                weapon.gameObject.transform.position = new Vector3(transform.position.x + attackRange, transform.position.y, transform.position.z);
-            }
-        }
-
 
         if (transform.position.y < mapBottom) //check if player fell off the map
         {
@@ -67,10 +43,15 @@ public class PlayerController : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.Q)) // attack with q
+        {
+            weapon.SetActive(true);
+            StartCoroutine(AttackCoolDown(attackCoolDown));
+        }
 
     }
 
-    private void Jump() //jump
+    private void Jump()
     {
         playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); //add force to jump
         isOnGround = false;
@@ -85,21 +66,16 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy")) //check if collided with enemy
         {
-            playerHp -= 25;
+            gameOver = true;
         }
 
     }
 
     IEnumerator AttackCoolDown(float attackCoolDown) //attack cooldown
     {
-        
         yield return new WaitForSeconds(attackCoolDown);
+
         weapon.SetActive(false);
     }
 
-    private void Attack() //attack
-    {
-        weapon.SetActive(true);
-        StartCoroutine(AttackCoolDown(attackCoolDown));
-    }
 }
