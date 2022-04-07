@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Effect
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 3939033985
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FG
+    uniqueID: 1844967575
     locked: 0
