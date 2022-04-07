@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private SpriteRenderer playerSpriteRenderer;
     public GameObject weapon;
     public GameObject enemy;
     public GameObject ground;
@@ -15,14 +16,14 @@ public class PlayerController : MonoBehaviour
     private float mapBottom = -5;
     private float attackCoolDown = 0.2f;
     public float playerHp = 100;
-    private float attackRange = 0.5f;
+    private bool facingRight;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
         weapon.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         {
             //movement
             float horizontalInput = Input.GetAxis("Horizontal");
-            transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
+                transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
 
             if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
             {
@@ -48,16 +49,29 @@ public class PlayerController : MonoBehaviour
                 Attack();
             }
 
-            if (Input.GetKey(KeyCode.A)) //turn weapon left
+            if (Input.GetKey(KeyCode.A)) //facing left
             {
-                weapon.gameObject.transform.position = new Vector3(transform.position.x -attackRange, transform.position.y, transform.position.z);
+                if(facingRight)
+                {
+                    Turn();
+                }
+
+                facingRight = false;
+                
             }
 
 
-            if (Input.GetKey(KeyCode.D)) //turn weapon right
+            if (Input.GetKey(KeyCode.D)) //facing right
             {
-                weapon.gameObject.transform.position = new Vector3(transform.position.x + attackRange, transform.position.y, transform.position.z);
+                if (!facingRight)
+                {
+                    Turn();
+                }
+
+                facingRight = true;
+                
             }
+
         }
 
 
@@ -101,5 +115,21 @@ public class PlayerController : MonoBehaviour
     {
         weapon.SetActive(true);
         StartCoroutine(AttackCoolDown(attackCoolDown));
+    }
+
+    private void Turn()
+    {
+        Debug.Log(transform.position.x + " " + playerSpriteRenderer.transform.position.x);
+        if (!facingRight)
+        {
+            playerSpriteRenderer.flipX = false;
+            playerSpriteRenderer.transform.position = new Vector3(playerSpriteRenderer.transform.position.x - 0.15f, transform.position.y, transform.position.z);
+        }
+
+        if (facingRight)
+        {
+            playerSpriteRenderer.flipX = true;
+            playerSpriteRenderer.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        }
     }
 }

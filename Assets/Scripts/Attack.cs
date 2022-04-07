@@ -5,8 +5,6 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public Rigidbody enemyRb;
-    public float enemyHp = 100;
-    private float enemyAttackCoolDown = 1f;
 
     // Start is called before the first frame update
     void Start()
