@@ -8,50 +8,92 @@ public class PlayerController : MonoBehaviour
     public GameObject enemy;
     public GameObject ground;
     private Rigidbody playerRb;
-    public float speed = 10;
+    public GameObject playerSprite;
+    public SpriteRenderer playerSpriteRenderer;
+    private BoxCollider playerBoxCollider;
+    public float speed = 5;
     public bool isOnGround;
-    public float jumpForce = 10;
+    public float jumpForce = 5;
     public bool gameOver;
     private float mapBottom = -5;
     private float attackCoolDown = 0.2f;
+    public float playerHp = 100;
+    private bool enemyCollision;
+    public bool facingRight;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        weapon = GameObject.Find("Weapon");
+        playerBoxCollider = GetComponent<BoxCollider>();
         weapon.SetActive(false);
-
+        playerSprite.transform.position = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //movement
-        float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
+        if (playerHp <= 0)
         {
-            Jump();
+            gameOver = true;
         }
+        if (!gameOver)
+        {
+            //movement
+            float horizontalInput = Input.GetAxis("Horizontal");
+                transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
+
+            if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
+            {
+                Jump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q)) // attack with q
+            {
+                Attack();
+            }
+
+            if (Input.GetKey(KeyCode.A)) //facing left
+            {
+                playerSpriteRenderer.flipX = true;
+                facingRight = true;
+                
+            }
+
+
+            if (Input.GetKey(KeyCode.D)) //facing right
+            {
+                playerSpriteRenderer.flipX = false;
+                facingRight = false;
+                
+            }
+
+            if(!facingRight)
+            {
+                playerSprite.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            }
+
+            else
+            {
+                playerSprite.transform.position = new Vector3(transform.position.x -0.22f, transform.position.y, transform.position.z);
+            }
+        }
+
 
         if (transform.position.y < mapBottom) //check if player fell off the map
         {
             gameOver = true;
         }
 
-
-        if (Input.GetKeyDown(KeyCode.Q)) // attack with q
+        if (enemyCollision)
         {
-            weapon.SetActive(true);
-            StartCoroutine(AttackCoolDown(attackCoolDown));
+            playerHp -= 25;
         }
+
 
     }
 
-    private void Jump()
+    private void Jump() //jump
     {
         playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); //add force to jump
         isOnGround = false;
@@ -66,16 +108,22 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy")) //check if collided with enemy
         {
-            gameOver = true;
+            enemyCollision = true;
         }
 
     }
 
     IEnumerator AttackCoolDown(float attackCoolDown) //attack cooldown
     {
+        
         yield return new WaitForSeconds(attackCoolDown);
-
         weapon.SetActive(false);
+    }
+
+    private void Attack() //attack
+    {
+        weapon.SetActive(true);
+        StartCoroutine(AttackCoolDown(attackCoolDown));
     }
 
 }

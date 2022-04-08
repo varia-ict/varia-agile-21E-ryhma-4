@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public Rigidbody enemyRb;
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-        enemyRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
 
     }
 
