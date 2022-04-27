@@ -39,9 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         if (!gameOver)
         {
-            //movement
-            float horizontalInput = Input.GetAxis("Horizontal");
-                transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
+       
 
             if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
             {
@@ -93,6 +91,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+     void FixedUpdate()
+    {
+        //movement
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * horizontalInput * speed * Time.fixedDeltaTime);
+    }
     private void Jump() //jump
     {
         playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); //add force to jump

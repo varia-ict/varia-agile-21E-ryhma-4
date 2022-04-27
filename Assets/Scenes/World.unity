@@ -1354,8 +1354,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15.999999, y: 16, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 15.999995, y: 16, z: 2.3161445}
+  m_Center: {x: 0, y: 0, z: -0.16038081}
 --- !u!212 &422203149
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2506,7 +2506,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &724967606
 GameObject:
@@ -2633,7 +2633,7 @@ Transform:
   - {fileID: 742180999}
   - {fileID: 289854039}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &742180998
 GameObject:
@@ -23523,7 +23523,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2601205588481317701, guid: d109db9d0996eb0459f1b052272523f0, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2601205588481317701, guid: d109db9d0996eb0459f1b052272523f0, type: 3}
       propertyPath: m_LocalScale.x
@@ -25094,7 +25094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b68ba01273b344ba595f5f31c6e436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iLevelToLoad: 1
+  iLevelToLoad: 2
   sLevelToLoad: 
   useIntegerToLoadLevel: 1
 --- !u!1 &1382052828
