@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player.transform.position.x < transform.position.x + enemyRange)
+        if (player.transform.position.x < transform.position.x + enemyRange)
         {
             Vector3 enemyVector = transform.position - player.transform.position;
             transform.Translate(enemySpeed * Time.deltaTime * -enemyVector.normalized);

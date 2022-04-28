@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    
+
     private void OnTriggerEnter(Collider collision)
     {
         GameObject collisionGameObject = collision.gameObject;
 
-        if(collisionGameObject.name == "Player")
+        if (collisionGameObject.name == "Player")
         {
             Destroy(collisionGameObject);
         }
@@ -18,12 +18,12 @@ public class Spike : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

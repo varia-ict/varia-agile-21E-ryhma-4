@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         if (!gameOver)
         {
-       
+
 
             if (Input.GetKeyDown(KeyCode.Space) && isOnGround) //jump with space
             {
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerSpriteRenderer.flipX = true;
                 facingRight = true;
-                
+
             }
 
 
@@ -63,17 +63,17 @@ public class PlayerController : MonoBehaviour
             {
                 playerSpriteRenderer.flipX = false;
                 facingRight = false;
-                
+
             }
 
-            if(!facingRight)
+            if (!facingRight)
             {
                 playerSprite.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             }
 
             else
             {
-                playerSprite.transform.position = new Vector3(transform.position.x -0.22f, transform.position.y, transform.position.z);
+                playerSprite.transform.position = new Vector3(transform.position.x - 0.22f, transform.position.y, transform.position.z);
             }
         }
 
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-     void FixedUpdate()
+    void FixedUpdate()
     {
         //movement
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator AttackCoolDown(float attackCoolDown) //attack cooldown
     {
-        
+
         yield return new WaitForSeconds(attackCoolDown);
         weapon.SetActive(false);
     }

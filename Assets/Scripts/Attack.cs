@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
     }
 
@@ -21,7 +21,7 @@ public class Attack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-                Destroy(other.gameObject);
+            Destroy(other.gameObject);
         }
 
     }
