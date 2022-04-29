@@ -23,6 +23,7 @@ public class LoadZone : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
+        //Loads new scene if player enters collider
         GameObject collisionGameObject = collision.gameObject;
 
         if (collisionGameObject.name == "Player")
