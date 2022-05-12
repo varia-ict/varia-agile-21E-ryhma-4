@@ -5,9 +5,12 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public GameObject player;
+    public Enemy enemyScript;
+    public PlayerController playerControllerScript;
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -21,9 +24,20 @@ public class Attack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            Debug.Log("enemy hit");
+            enemyScript.enemyHp -= 25;
+
+            if (enemyScript.enemyHp <= 0)
+            {
+                Destroy(other.gameObject);
+            }
+
+        }
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerControllerScript.playerHp -= 25;
         }
 
     }
-
 }
