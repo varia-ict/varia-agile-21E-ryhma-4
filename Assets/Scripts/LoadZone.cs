@@ -10,17 +10,6 @@ public class LoadZone : MonoBehaviour
 
     public bool useIntegerToLoadLevel = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void OnTriggerEnter(Collider collision)
     {
         //Loads new scene if player enters collider

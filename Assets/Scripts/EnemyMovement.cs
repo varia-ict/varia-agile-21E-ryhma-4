@@ -16,13 +16,13 @@ public class EnemyMovement : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Start() //checking mustpatrol
     {
         mustPatrol = true;
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() 
     {
         if (mustPatrol)
         {
@@ -30,7 +30,7 @@ public class EnemyMovement : MonoBehaviour
          }
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // physics
     {
         if (mustPatrol)
         {
@@ -38,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void Patrol()
+    void Patrol() // moving specific time
     {
         if (mustTurn || bodyCollider.IsTouchingLayers(groundLayer))
         {
@@ -47,7 +47,7 @@ public class EnemyMovement : MonoBehaviour
         rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
     }
 
-    void Flip()
+    void Flip() //flip the enemy
     {
 
         mustPatrol = false;

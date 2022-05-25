@@ -39,6 +39,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -244,6 +245,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ledge_grab_sheet_1: 1661739795881545509
+      ledge_grab_sheet_0: 5678318089757012065
+      ledge_grab_sheet_2: -5284692263291036225
+      ledge_grab_sheet_4: -4301507985049987875
+      ledge_grab_sheet_3: 5212980401643971997
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

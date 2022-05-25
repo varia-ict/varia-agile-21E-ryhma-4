@@ -17,6 +17,7 @@ public class BossFight : MonoBehaviour
     [SerializeField] float attackPlayerSpeed;
     [SerializeField] Transform player;
     private Vector2 playerPosition;
+    private bool hasPlayerPosition;
     // Other
     [Header("Other")]
     [SerializeField] Transform groundCheckUp;
@@ -29,8 +30,8 @@ public class BossFight : MonoBehaviour
     private bool isTouchingWall;
     private bool goingUp = true;
     private bool facingLeft = true;
-    private Rigidbody2D enemyRB;
-
+    private Rigidbody enemyRB;
+    private Animator enemyAnim;
 
 
 
@@ -39,26 +40,40 @@ public class BossFight : MonoBehaviour
     {
         idleMoveDirection.Normalize();
         attackMoveDirection.Normalize();
-        enemyRB = GetComponent<Rigidbody2D>();
+        enemyRB = GetComponent<Rigidbody>();
+        enemyAnim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         isTouchingUp = Physics2D.OverlapCircle(groundCheckUp.position, groundCheckRadius, groundLayer);
         isTouchingDown = Physics2D.OverlapCircle(groundCheckDown.position, groundCheckRadius, groundLayer);
         isTouchingWall = Physics2D.OverlapCircle(groundCheckWall.position, groundCheckRadius, groundLayer);
+        
         IdleState();
-        AttackUpNDown();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AttackPlayer();
-        }
+        AttackUpNDown();       
         FlipTowardsPlayer();
+
+    }
+   
+    
+    //Randomly selects between idle and attack animation
+    void randomStatePicker()
+    {
+        int randomState = Random.Range(0, 2);
+        if (randomState == 1)
+        {
+            //attackupndown animation
+           enemyAnim.SetTrigger("AttackUpNDown");
+
+        }
     }
 
+
+    
     public void IdleState()
     {
+        //changes direction of movement upon hitting the walls
         if(isTouchingUp && goingUp)
         {
             ChangeDirection();
@@ -67,7 +82,7 @@ public class BossFight : MonoBehaviour
         {
             ChangeDirection();
         }
-
+        //flips boss upon hitting walls
         if (isTouchingWall)
         {
             if (facingLeft)
@@ -84,7 +99,8 @@ public class BossFight : MonoBehaviour
     
     public void AttackUpNDown()
     {
-        if(isTouchingUp && goingUp)
+        //changes direction of movement upon hitting the walls
+        if (isTouchingUp && goingUp)
         {
             ChangeDirection();
         }
@@ -93,6 +109,7 @@ public class BossFight : MonoBehaviour
             ChangeDirection();
         }
 
+        //flips boss upon hitting walls
         if (isTouchingWall)
         {
             if (facingLeft)
@@ -107,30 +124,44 @@ public class BossFight : MonoBehaviour
         enemyRB.velocity = attackMoveSpeed * attackMoveDirection;
     }
 
+    //Not in use
     public void AttackPlayer()
     {
-        //take player position
-        playerPosition = player.position - transform.position;
-        //normalize player position
-        playerPosition.Normalize();
-        //attack on that position
-        enemyRB.velocity = playerPosition * attackPlayerSpeed;
+        if (!hasPlayerPosition)
+        {
+            playerPosition = player.position - transform.position;
+            playerPosition.Normalize();
+            hasPlayerPosition = true;
+        }
+        if (hasPlayerPosition)
+        {
+            enemyRB.velocity = playerPosition * attackPlayerSpeed;
+        }
+        if (isTouchingWall || isTouchingDown)
+        {
+            enemyRB.velocity = Vector2.zero;
+            hasPlayerPosition = false;
+            enemyAnim.SetTrigger("Slam");
+        }
+
 
     }
 
+    //makes the boss face the player
     void FlipTowardsPlayer()
     {
         float playerDirection = player.position.x - transform.position.x;
 
-        if(playerDirection>0 && facingLeft)
+        if (playerDirection > 0 && facingLeft)
         {
             Flip();
         }
-        else if (playerDirection<0 && !facingLeft)
+        else if (playerDirection < 0 && !facingLeft)
         {
             Flip();
         }
     }
+
 
     void ChangeDirection()
     {
@@ -146,6 +177,8 @@ public class BossFight : MonoBehaviour
         attackMoveDirection.x *= -1;
         transform.Rotate(0, 180, 0);
     }
+
+    //draws gizmos on scene view
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
@@ -154,4 +187,14 @@ public class BossFight : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheckWall.position, groundCheckRadius);
     }
 
+    //destroys player on collision
+    private void OnTriggerEnter(Collider collision)
+    {
+        GameObject collisionGameObject = collision.gameObject;
+
+        if (collisionGameObject.name == "Player")
+        {
+            Destroy(collisionGameObject);
+        }
+    }
 }

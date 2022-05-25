@@ -7806,7 +7806,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 888438015}
   enemyWeapon: {fileID: 0}
   enemyScript: {fileID: 0}
-  speed: 5
+  speed: 3
   isOnGround: 0
   jumpForce: 5
   gameOver: 0
